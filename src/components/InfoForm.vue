@@ -19,7 +19,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">创建</el-button>
-                <el-button>取消</el-button>
+                <el-button @click="onCancel">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -100,6 +100,14 @@ const fetchAnswer = async () => {
         tempSession.loading = false;
     }
 };
+
+const onCancel = () => {
+    const index = journalSessions.indexOf(currentSession.value);
+    if (index > -1) {
+        journalSessions.splice(index, 1);
+    }
+    showInfoForm.value = !showInfoForm.value
+}
 
 </script>
 

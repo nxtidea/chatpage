@@ -6,7 +6,11 @@
         <div id="sessions">
             <div :class="{ 'session': true, 'focused': session.focused }" v-for="(session, index) in journalSessions"
                 :key="index" @click="toggleSessionFocus(session)">
-                {{ session.name }}
+                <span>
+                    {{ session.name }}
+                </span>
+                <div id="deleteSession-btn" @click="deleteSession(session)">x</div>
+
             </div>
         </div>
         <div id="add-session" @click="addSession">
@@ -21,13 +25,17 @@ import { journalSessions, showInfoForm } from '../store'
 function toggleSessionFocus(session) {
     journalSessions.forEach(s => s.focused = false);
     session.focused = true;
-    // set(currentSession)
 }
 
 function addSession() {
     journalSessions.forEach(s => s.focused = false);
     showInfoForm.value = !showInfoForm.value;
     journalSessions.push({ name: '新会话', focused: true, question: "", wrapper: [], loading: false, info: {} });
+}
+
+function deleteSession(session) {
+    const index = journalSessions.indexOf(session);
+    journalSessions.splice(index, 1);
 }
 
 </script>
@@ -68,12 +76,25 @@ function addSession() {
     margin: 3px 0px 3px 3px;
     padding: 0 0 0 1rem;
     box-shadow: inset -4px 0px 4px 0px rgba(102, 102, 102, 0.25);
+    justify-content: space-between;
+    transition: 0.2s;
 }
 
 .session:hover {
     cursor: pointer;
     margin: 3px 0px 3px 9px;
     transition: 0.2s;
+}
+
+.session>#deleteSession-btn {
+    display: none;
+    transition: 0.4s;
+}
+
+.session:hover>#deleteSession-btn {
+    display: inline;
+    margin-right: 20px;
+    transition: 0.4s;
 }
 
 .session.focused {
